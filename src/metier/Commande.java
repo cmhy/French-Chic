@@ -49,9 +49,9 @@ public class Commande {
 		return nb_prod;
 	}
 
-	public Produit getProd() {
+	/*public Produit getProd() {
 		return prod;
-	}
+	}*/
 
 	public Client getClt() {
 		return clt;
@@ -73,9 +73,9 @@ public class Commande {
 		this.nb_prod = nb_prod;
 	}
 
-	public void setProd(Produit prod) {
+	/*public void setProd(Produit prod) {
 		this.prod = prod;
-	}
+	}*/
 
 	public void setClt(Client clt) {
 		this.clt = clt;

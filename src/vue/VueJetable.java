@@ -22,9 +22,9 @@ import controleur.TypeEcran;
 public class VueJetable extends JFrame{
 	
 	
-	public VueJetable(){
+	public VueJetable(String screen){
 		super();
-		build();
+		build(screen);
 	}
 	
 	
@@ -122,34 +122,62 @@ public class VueJetable extends JFrame{
 		return panel;
 	}
 
-	private void build(){
+	private void build(String screen){
+		//Do this part with enumeratescreens on TypeEcran if possible
+		if(screen.equals("Ecran_Accueil")) {
 
-	    //Définit un titre pour notre fenêtre
+		    //Définit un titre pour notre fenêtre
+	
+		    this.setTitle("Accueil");
+	
+		    //Définit sa taille : 400 pixels de large et 100 pixels de haut
+	
+		    this.setSize(1000, 1000);
+	
+		    //Nous demandons maintenant à notre objet de se positionner au centre
+	
+		    this.setLocationRelativeTo(null);
+		    
+	
+	
+		    //On prévient notre JFrame que notre JPanel sera son content pane
+	
+	
+		    //Termine le processus lorsqu'on clique sur la croix rouge
+	
+		    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+		    //Et enfin, la rendre visible        
+	
+		  
+		    this.setContentPane(buildContentPane());
+		}
 
-	    this.setTitle("Accueil");
+		else if(screen.equals("Ecran_Acueil_Personnalise")) {
 
-	    //Définit sa taille : 400 pixels de large et 100 pixels de haut
-
-	    this.setSize(1000, 1000);
-
-	    //Nous demandons maintenant à notre objet de se positionner au centre
-
-	    this.setLocationRelativeTo(null);
-	    
-
-
-	    //On prévient notre JFrame que notre JPanel sera son content pane
-
-
-	    //Termine le processus lorsqu'on clique sur la croix rouge
-
-	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-	    //Et enfin, la rendre visible        
-
-	  
-	    this.setContentPane(buildContentPane());
-
+	
+		    //Définit sa taille : 400 pixels de large et 100 pixels de haut
+	
+		    this.setSize(1000, 1000);
+	
+		    //Nous demandons maintenant à notre objet de se positionner au centre
+	
+		    this.setLocationRelativeTo(null);
+		    
+	
+	
+		    //On prévient notre JFrame que notre JPanel sera son content pane
+	
+	
+		    //Termine le processus lorsqu'on clique sur la croix rouge
+	
+		    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+		    //Et enfin, la rendre visible        
+	
+		  
+		    this.setContentPane(buildEcranAccueil());
+		}
 	    this.setVisible(true);
 
 	}
@@ -165,10 +193,7 @@ public class VueJetable extends JFrame{
 		Session session = new Session();
 		
 		
-		if(session.traiterConnexion().equals(TypeEcran.Ecran_Accueil)){
-			// on ouvre l'interface graphique
-			new VueJetable();
-		}
+		new VueJetable("Ecran_Acueil_Personnalise");
 	}
 
 }
