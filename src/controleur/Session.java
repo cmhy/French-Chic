@@ -3,7 +3,7 @@ import controleur.TypeEcran;
 
 public class Session {
 	
-	public TypeEcran traiterConnexion(TypeEcran ecran){
+	public TypeEcran afficherEcran(TypeEcran ecran){
 		// Throw an exception to be more rigorous
 		if(ecran == TypeEcran.Ecran_Accueil) {
 			return TypeEcran.Ecran_Accueil; 
@@ -18,6 +18,4 @@ public class Session {
 		return null;
 		
 	}
-	public TypeEcran traiterAffichageEcranAcceuilPerso(){ return TypeEcran.Ecran_Acueil_Personnalise;}
-
 }
