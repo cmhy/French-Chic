@@ -84,7 +84,43 @@ public class VueJetable extends JFrame{
 		this.setBackground(Color.white);
 
 		return panel;
-	}	
+	}
+
+	private JPanel buildEcranAccueil(){
+		//new ContentPaint();
+		JPanel p=new JPanel();
+		JPanel panel = new ContentPaint();
+		//p.setMaximumSize(new Dimension(800,600));
+		panel.setLayout(null);
+		p.setBounds(200, 300, 500, 400);
+
+		JPanel p1 = new JPanel();
+		JPanel p2 = new JPanel();
+		JPanel p3 = new JPanel();
+		JPanel p4 = new JPanel();
+
+
+
+
+		JLabel label = new JLabel("French Chic");
+		label.setForeground(Color.MAGENTA);
+		Font font = new Font("Arial",Font.BOLD,40);
+		label.setFont(font);
+		p1.setLayout(new BoxLayout(p1,BoxLayout.LINE_AXIS));
+
+		p1.add(label);
+
+
+
+
+		
+
+		this.getContentPane().add(panel);
+		p.setBackground(Color.white);
+		this.setBackground(Color.white);
+
+		return panel;
+	}
 
 	private void build(){
 
