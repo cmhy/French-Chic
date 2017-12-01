@@ -8,51 +8,10 @@ public class Client {
 	private String pseudo;
 	private String mdp;
 	private String numero_client; // id unique
-	private Commande[] cmd;
+	private Commande cmd[];
 	
 	
 	
-	public String getNom() {
-		return nom;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public String getPseudo() {
-		return pseudo;
-	}
-
-	public String getMdp() {
-		return mdp;
-	}
-
-	public Commande[] getCmd() {
-		return cmd;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-	}
-
-	public void setMdp(String mdp) {
-		this.mdp = mdp;
-	}
-
-	public void setCmd(Commande[] cmd) {
-		this.cmd = cmd;
-	}
-
-
 	private int randomNum = (int) (Math.random()*((9999 - 0) + 1) + 0);
 	private  int idObjet= randomNum;
 	private int typeOperation = (int) (Math.random()*((10 - 0) + 1) + 0);
@@ -68,9 +27,6 @@ public class Client {
 	}
 	
 	public Client(){
-		this.nom= "defaultName";
-		this.prenom = "defaultSurname";
-		pseudo = "defaultNickname";
 		numero_client = this.id();
 	}
 	

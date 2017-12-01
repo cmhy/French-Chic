@@ -21,28 +21,5 @@ public class Produit {
 		this.qte_stock =qte;
 		this.prix = prix_prod;
 	}
-	public Produit() {
-		// TODO Auto-generated constructor stub
-	}
-	public int getPrix() {
-		return prix;
-	}
-	public int getQte_stock() {
-		return qte_stock;
-	}
-	public int getRef() {
-		return ref;
-	}
-	public void setPrix(int prix) {
-		this.prix = prix;
-	}
-	public void setQte_stock(int qte_stock) {
-		this.qte_stock = qte_stock;
-	}
-	public void setRef(int ref) {
-		this.ref = ref;
-	}
-	
-	
 
 }

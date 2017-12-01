@@ -6,10 +6,9 @@ public class Commande {
 	private Date date;
 	private int nb_prod;
 	private String num_cmd; // id unique
-	//private Produit prod; // a voir (heritage ou comment faire puisque le produit du jour est un produit particulier
+	private Produit prod; // a voir (heritage ou comment faire puisque le produit du jour est un produit particulier
+	//(Spécialisé) ou constructeur par défaut ?
 	private Client clt;
-	private LigneDeCommande[] ligne_de_cmd;
-	private static Produit pdtJour;
 	
 	private int idObjet = (int) (Math.random()*((9999 - 0) + 1) + 0);
 	private int typeOperation = (int) (Math.random()*((10 - 0) + 1) + 0);
@@ -22,7 +21,6 @@ public class Commande {
 	    String res= String.valueOf(hash);
 	    return res;
 	}
-	
 	public Commande(){
 		this.num_cmd=this.id();
 		this.clt = new Client();
@@ -30,65 +28,15 @@ public class Commande {
 		
 	}
 	
-	public Commande(int nb_prod, Client leClient){ //= produit_du_jr ){
+	public Commande(int nb_prod, Client leClient){
 		date = new Date();//timestamp.getTime());
 		this.nb_prod=nb_prod;
-		
+		//prod = produit_jr // par défaut (on pourrait le mettre en paramètre par défaut
 		this.num_cmd = this.id();
 		this.clt = leClient;
 		
 	}
 	
-
-	
-	public Date getDate() {
-		return date;
-	}
-
-	public int getNb_prod() {
-		return nb_prod;
-	}
-
-	/*public Produit getProd() {
-		return prod;
-	}*/
-
-	public Client getClt() {
-		return clt;
-	}
-
-	public LigneDeCommande[] getLigne_de_cmd() {
-		return ligne_de_cmd;
-	}
-
-	public static Produit getPdtJour() {
-		return pdtJour;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public void setNb_prod(int nb_prod) {
-		this.nb_prod = nb_prod;
-	}
-
-	/*public void setProd(Produit prod) {
-		this.prod = prod;
-	}*/
-
-	public void setClt(Client clt) {
-		this.clt = clt;
-	}
-
-	public void setLigne_de_cmd(LigneDeCommande[] ligne_de_cmd) {
-		this.ligne_de_cmd = ligne_de_cmd;
-	}
-
-	public static void setPdtJour(Produit pdtJour) {
-		Commande.pdtJour = pdtJour;
-	}
-
 	// écrire la toString pour toutes les classes
 	public static void main(String args[]){
 		Client clt_1 = new Client("Ya", "Mvrinka", "barbie","mmmm");
