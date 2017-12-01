@@ -24,10 +24,17 @@ import controleur.TypeEcran;
 public class VueJetable extends JFrame{
 
 
-	public VueJetable(){
+	public VueJetable(TypeEcran ecran){
 		super();
-		//buildEcran_Accueil();
-		buildEcran_Accueil_Personnalise();
+		if(ecran.equals(TypeEcran.Ecran_Accueil)) {
+			buildEcran_Accueil();
+		}
+		else if(ecran.equals(TypeEcran.Ecran_Acueil_Personnalise)) {
+			buildEcran_Accueil_Personnalise();
+		}
+		else if (ecran.equals(TypeEcran.Ecran_Panier)) {
+			buildEcran_Panier();
+		}
 	}
 
 
@@ -257,7 +264,7 @@ private void buildEcran_Panier(){
 	// Main 	
 	public static void main (String[] args){
 		Session session = new Session();
-		new VueJetable();
+		new VueJetable(TypeEcran.Ecran_Panier);
 	}
 }
 
