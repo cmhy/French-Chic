@@ -3,6 +3,15 @@ import controleur.TypeEcran;
 
 public class Session {
 	
+	public TypeEcran traiterConnexion(){
+		return TypeEcran.Ecran_Accueil; 
+	}
+	
+	// TO DO ajouter lesinformations de client et leproduit du jour
+	public TypeEcran traiterIdentification() {
+		return TypeEcran.Ecran_Acueil_Personnalise;
+	}
+	
 	public TypeEcran afficherEcran(TypeEcran ecran){
 		// Throw an exception to be more rigorous
 		if(ecran == TypeEcran.Ecran_Accueil) {
