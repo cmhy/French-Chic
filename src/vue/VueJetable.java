@@ -18,19 +18,19 @@ import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import controleur.Session;
-import controleur.TypeEcran;
+import controleur.*;
+import metier.*;
 
 public class VueJetable extends JFrame{
 
 
-	public VueJetable(TypeEcran ecran){
+	public VueJetable(TypeEcran ecran, Client clt){
 		super();
 		if(ecran.equals(TypeEcran.Ecran_Accueil)) {
 			buildEcran_Accueil();
 		}
-		else if(ecran.equals(TypeEcran.Ecran_Acueil_Personnalise)) {
-			buildEcran_Accueil_Personnalise();
+		else if(ecran.equals(TypeEcran.Ecran_Accueil_Personnalise)) {
+			buildEcran_Accueil_Personnalise(clt);
 		}
 		else if (ecran.equals(TypeEcran.Ecran_Panier)) {
 			buildEcran_Panier();
@@ -128,7 +128,7 @@ public class VueJetable extends JFrame{
 
 	}
 
-	private JPanel buildContentPaneEcran_Acueil_Personnalise(){
+	private JPanel buildContentPaneEcran_Acueil_Personnalise(Client clt){
 		JPanel p=new JPanel();
 		JPanel panel = new ContentPaint();
 		panel.setLayout(null);
@@ -149,8 +149,9 @@ public class VueJetable extends JFrame{
 
 		JLabel messageBienvenue = new JLabel();
 		// TO DO ajouter les infromations sur le client
-		String client = "Marie Dupond ";
-		messageBienvenue.setText("Bonjour " + client);
+		String prenomClient = clt.getPrenom();
+		String nomClient = clt.getNom();
+		messageBienvenue.setText("Bonjour " + prenomClient + " " + nomClient);
 		p2.setLayout(new BoxLayout(p2, BoxLayout.LINE_AXIS));
 		p2.add(messageBienvenue);
 		
@@ -193,12 +194,12 @@ public class VueJetable extends JFrame{
 	}
 	
 	
-	private void buildEcran_Accueil_Personnalise(){
+	private void buildEcran_Accueil_Personnalise(Client clt){
 		this.setTitle("Ecran_Acueil_Personnalise");
 		this.setSize(1000, 1000);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setContentPane(buildContentPaneEcran_Acueil_Personnalise());
+		this.setContentPane(buildContentPaneEcran_Acueil_Personnalise(clt));
 		this.setVisible(true);
 	}
 	
@@ -264,7 +265,8 @@ private void buildEcran_Panier(){
 	// Main 	
 	public static void main (String[] args){
 		Session session = new Session();
-		new VueJetable(TypeEcran.Ecran_Panier);
+		//session.traiterIdentification(pseudo, mdp)
+		//new VueJetable(TypeEcran.Ecran_Panier);
 	}
 }
 
