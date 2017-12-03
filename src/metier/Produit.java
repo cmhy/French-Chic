@@ -8,6 +8,7 @@ public class Produit {
 	private int qte_stock;
 	private int ref;
 	private boolean est_du_jour;
+	private String nomProduit;
 	public static ArrayList<Produit> listeProduits = new ArrayList<Produit>();
 	
 	
@@ -34,10 +35,11 @@ public class Produit {
 		this.est_du_jour = false;
 		actualisationListeProduits();
 	}
-	public Produit(int qte, int prix_prod, boolean estDuJour) {
+	public Produit(int qte, int prix_prod,String nomProd, boolean estDuJour) {
 		this.ref = this.id();
 		this.qte_stock = qte;
 		this.prix = prix_prod;
+		this.nomProduit= nomProd;
 		this.est_du_jour = estDuJour;
 		actualisationListeProduits();
 	}
@@ -50,6 +52,10 @@ public class Produit {
 	public int getRef() {
 		return ref;
 	}
+	
+	public String getNomProduit(){
+		return this.nomProduit;
+	}
 	public void setPrix(int prix) {
 		this.prix = prix;
 	}
@@ -58,6 +64,10 @@ public class Produit {
 	}
 	public void setRef(int ref) {
 		this.ref = ref;
+	}
+	
+	public void setNomProduit(String leNomDuProduit){
+		this.nomProduit = leNomDuProduit;
 	}
 	
 	public static Produit rechercheProduitDuJour(){
@@ -74,7 +84,7 @@ public class Produit {
 	
 	public void retirerDuStock(int qte){
 		this.setQte_stock(this.qte_stock - qte);
-		System.out.println("mise a  jour OK. Reste " + this.getQte_stock() + " produits");
+		System.out.println("mise aï¿½ jour OK. Reste " + this.getQte_stock() + " produits");
 	}
 	
 

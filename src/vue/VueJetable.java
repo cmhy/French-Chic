@@ -27,7 +27,8 @@ public class VueJetable extends JFrame implements ActionListener{
 		 
 		private JTextField textfpseudo; // LES MODIFS : OBLIGE DE METTRE CES VARIABLES DEHORS CAR PAS DE SENS DE LES METTRE PUBLIC 
 		private JPasswordField textfmdp; // DANS LA METHODE OÃ™ ON LES INSTANCIE
-		private JButton bouton;
+		private JButton boutonIdentification;
+		JButton boutonDefinirQuantite;
 
 	public VueJetable(TypeEcran ecran){
 		super();
@@ -111,20 +112,20 @@ public class VueJetable extends JFrame implements ActionListener{
 
 	private void buildEcran_Accueil(){
 
-		//Définit un titre pour notre fenêtre
+		//Dï¿½finit un titre pour notre fenï¿½tre
 
 		this.setTitle("Accueil");
 
-		//Définit sa taille : 400 pixels de large et 100 pixels de haut
+		//Dï¿½finit sa taille : 400 pixels de large et 100 pixels de haut
 
 		this.setSize(1000, 1000);
 
-		//Nous demandons maintenant à notre objet de se positionner au centre
+		//Nous demandons maintenant ï¿½ notre objet de se positionner au centre
 
 		this.setLocationRelativeTo(null);
 
 
-		//On prévient notre JFrame que notre JPanel sera son content pane
+		//On prï¿½vient notre JFrame que notre JPanel sera son content pane
 
 
 		//Termine le processus lorsqu'on clique sur la croix rouge
@@ -170,14 +171,14 @@ public class VueJetable extends JFrame implements ActionListener{
 		JLabel produit_Du_Jour = new JLabel();
 		//TO DO changer ceci avec le nom du produitDujour si possible
 		String produit = "" + produitDuJour.getRef();
-		// TO DO Reccupérer ici le prix
+		// TO DO Reccupï¿½rer ici le prix
 		int prix = produitDuJour.getPrix();
 		produit_Du_Jour.setText("Le produit du jour est le " + produit + " au prix HT de " + prix + " euros");
 		p3.setLayout(new BoxLayout(p3, BoxLayout.LINE_AXIS));
 		p3.add(produit_Du_Jour);
 
 		JLabel quantite = new JLabel("Quantite     ");
-		// TO DO ajouter la quantité commandee du produit
+		// TO DO ajouter la quantitï¿½ commandee du produit
 		JTextField quantiteCommandee = new JTextField(5); 
 		quantiteCommandee.setMaximumSize(new Dimension(50, 20));
 		p4.setLayout(new BoxLayout(p4, BoxLayout.LINE_AXIS));
@@ -185,7 +186,7 @@ public class VueJetable extends JFrame implements ActionListener{
 		p4.add(quantiteCommandee);
 
 		// TO DO rajouter l'intellignece pour effectivement ajouter le produit au panier 
-		JButton bouton = new JButton(("Ajouter le produit au panier"));
+		boutonDefinirQuantite = new JButton(("Ajouter le produit au panier"));
 		p5.setLayout(new BoxLayout(p5,BoxLayout.LINE_AXIS));
 		p5.add(bouton);
 		bouton.addActionListener(new ActionListener(){
@@ -239,7 +240,7 @@ public class VueJetable extends JFrame implements ActionListener{
 		p1.add(label);
 
 		String[] intitulesColonnes = {"Libelle", "Prix HT", "Quantite", "Montant"};
-		//Taille du tableau arbitrairement mis à 10
+		//Taille du tableau arbitrairement mis ï¿½ 10
 		String[][] produits = new String[10][10]; 
 		int i=0;
 		int montantTotalPanier=0; 
@@ -287,23 +288,23 @@ public class VueJetable extends JFrame implements ActionListener{
 	}
 
 
-	/*public static void main (String[] args){
+	public static void main (String[] args){
 		
 		Session session = new Session();
 		ArrayList<Object> listeInfos = session.traiterIdentification("youssou", "ndour");
 		Client clientCourant = (Client) listeInfos.get(1);
-		Produit produitDuJour = new Produit(100, 50, true);
+		Produit produitDuJour = new Produit(100, 50,"Pantalon Zouk", true);
 		//new VueJetable(TypeEcran.Ecran_Accueil_Personnalise, clientCourant, produitDuJour);
-		Commande cmd = new Commande(2, clt, produitDuJour);
+		/Commande cmd = new Commande(2, clt, produitDuJour);
 		new VueJetable(TypeEcran.Ecran_Panier, cmd);
-	}*/
+	}
 	
 	public void actionPerformed(ActionEvent evt) // IMPLEMENTER ACTION PERFORMED QUI RÃ‰AGIT AU CLIC 
 	// A CHAQUE FOIS QU'ON VOUDRA ECOUTER UN BOUTON, AJOUTER UN IF ET FAIRE LE GETSOURCE SUR LE BON BOUTON
     { 
-		Client clt = new Client("Ndour", "Youssou", "youssou", "ndour");
-		Client clt_2=new Client("Mvrinka", "Yangbo", "mvrinka", "yangbo");
-		Produit produitDuJour = new Produit(100, 50, true);
+		//Client clt = new Client("Ndour", "Youssou", "youssou", "ndour");
+		//Client clt_2=new Client("Mvrinka", "Yangbo", "mvrinka", "yangbo");
+		//Produit produitDuJour = new Produit(100, 50, true);
        if (evt.getSource()==bouton) 
        {
           String pseudo = textfpseudo.getText();
