@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
@@ -24,16 +25,26 @@ import metier.*;
 public class VueJetable extends JFrame{
 
 
-	public VueJetable(TypeEcran ecran, Client clt){
+	
+	public VueJetable(TypeEcran ecran){
 		super();
 		if(ecran.equals(TypeEcran.Ecran_Accueil)) {
 			buildEcran_Accueil();
 		}
-		else if(ecran.equals(TypeEcran.Ecran_Accueil_Personnalise)) {
-			buildEcran_Accueil_Personnalise(clt);
+	}
+	
+	public VueJetable(TypeEcran ecran, Client clt, Produit produitDuJour){
+		super();
+		
+		if(ecran.equals(TypeEcran.Ecran_Accueil_Personnalise)) {
+			buildEcran_Accueil_Personnalise(clt, produitDuJour);
 		}
-		else if (ecran.equals(TypeEcran.Ecran_Panier)) {
-			buildEcran_Panier();
+	}
+	
+	public VueJetable(TypeEcran ecran, Commande cmd){
+		super();
+		if (ecran.equals(TypeEcran.Ecran_Panier)) {
+			buildEcran_Panier(cmd);
 		}
 	}
 
@@ -68,7 +79,6 @@ public class VueJetable extends JFrame{
 		textfpseudo.setMaximumSize(new Dimension(150, 20));
 		p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
 		p2.add(textfpseudo);
-
 
 		JPasswordField textfmdp= new JPasswordField("mot de passe");
 		textfmdp.setColumns(10);
@@ -109,7 +119,6 @@ public class VueJetable extends JFrame{
 	    //Nous demandons maintenant à notre objet de se positionner au centre
 
 	    this.setLocationRelativeTo(null);
-	    
 
 
 	    //On prévient notre JFrame que notre JPanel sera son content pane
@@ -128,7 +137,7 @@ public class VueJetable extends JFrame{
 
 	}
 
-	private JPanel buildContentPaneEcran_Acueil_Personnalise(Client clt){
+	private JPanel buildContentPaneEcran_Acueil_Personnalise(Client clt, Produit produitDuJour){
 		JPanel p=new JPanel();
 		JPanel panel = new ContentPaint();
 		panel.setLayout(null);
@@ -155,27 +164,33 @@ public class VueJetable extends JFrame{
 		p2.setLayout(new BoxLayout(p2, BoxLayout.LINE_AXIS));
 		p2.add(messageBienvenue);
 		
-		JLabel produitDuJour = new JLabel();
-		// TO DO ajouter les infromations sur le produit du jour
-		//TO DO changer ceci en type produit et concaténer les informations
-		String produit = "Pantalon ZOUK ";
+		JLabel produit_Du_Jour = new JLabel();
+		//TO DO changer ceci avec le nom du produitDujour si possible
+		String produit = "" + produitDuJour.getRef();
 		// TO DO Reccupérer ici le prix
-		int prix = 50;
-		produitDuJour.setText("Le produit du jour est le " + produit + "au prix HT de " + prix + " euros");
+		int prix = produitDuJour.getPrix();
+		produit_Du_Jour.setText("Le produit du jour est le " + produit + " au prix HT de " + prix + " euros");
 		p3.setLayout(new BoxLayout(p3, BoxLayout.LINE_AXIS));
-		p3.add(produitDuJour);
+		p3.add(produit_Du_Jour);
 		
-		JLabel quantite = new JLabel();
+		JLabel quantite = new JLabel("Quantite     ");
 		// TO DO ajouter la quantité commandee du produit
-		int montant = 20;
-		quantite.setText("Quantite " + montant + " euros");
+		JTextField quantiteCommandee = new JTextField(5); 
+		quantiteCommandee.setMaximumSize(new Dimension(50, 20));
 		p4.setLayout(new BoxLayout(p4, BoxLayout.LINE_AXIS));
 		p4.add(quantite);
+		p4.add(quantiteCommandee);
 		
 		// TO DO rajouter l'intellignece pour effectivement ajouter le produit au panier 
 		JButton bouton = new JButton(("Ajouter le produit au panier"));
 		p5.setLayout(new BoxLayout(p5,BoxLayout.LINE_AXIS));
 		p5.add(bouton);
+		bouton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent ae) {
+				String qte = quantiteCommandee.getText();
+				produitDuJour.retirerDuStock(Integer.parseInt(qte));
+			}
+		});
 		
 
 		p.setLayout(new BoxLayout(p,BoxLayout.PAGE_AXIS));
@@ -194,16 +209,16 @@ public class VueJetable extends JFrame{
 	}
 	
 	
-	private void buildEcran_Accueil_Personnalise(Client clt){
+	private void buildEcran_Accueil_Personnalise(Client clt, Produit produitDuJour){
 		this.setTitle("Ecran_Acueil_Personnalise");
 		this.setSize(1000, 1000);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setContentPane(buildContentPaneEcran_Acueil_Personnalise(clt));
+		this.setContentPane(buildContentPaneEcran_Acueil_Personnalise(clt, produitDuJour));
 		this.setVisible(true);
 	}
 	
-	private JPanel buildContentPaneEcran_Panier(){
+	private JPanel buildContentPaneEcran_Panier(Commande cmd){
 		JPanel p=new JPanel();
 		JPanel panel = new ContentPaint();
 		panel.setLayout(null);
@@ -221,19 +236,33 @@ public class VueJetable extends JFrame{
 		p1.add(label);
 
 		String[] intitulesColonnes = {"Libelle", "Prix HT", "Quantite", "Montant"};
-		String[][] produits = {
+		//Taille du tableau arbitrairement mis à 10
+		String[][] produits = new String[10][10];
+				
+				/*{
 			      {"Chemise Lacoste", "20 euros", "1", "20 euros"},
 			      {"Pantallon ZOUK", "40 euros", "3", "120 euros"},
 				  {"TShirt Decathlon", "5 euros", "5", "25 euros"},
-			    }; 
+			    }*/
+				; 
+		int i=0;
+		int montantTotalPanier=0; 
+		for(LigneDeCommande ldc:cmd.getLigne_de_cmd()){
+			produits[i][0]="" + ldc.getPrdt().getRef();
+			produits[i][1] = "" + ldc.getPrdt().getPrix();
+			produits[i][2] = "" + ldc.getQte();
+			int montant = ldc.getPrdt().getPrix() * ldc.getQte();
+			produits[i][3] = "" + montant;
+			montantTotalPanier += montant;
+			i++;
+		}
 		JTable tableauProduits = new JTable(produits, intitulesColonnes);
 		p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
 		p2.add(tableauProduits);
 		
 		JLabel montantPanier = new JLabel();
 		// TO DO Reccuperer ici le total du panier ; 
-		int montantTotal = 165;
-		String montantHT = "Montant Panier " + montantTotal + " euros";
+		String montantHT = "Montant Panier " + montantTotalPanier + " euros";
 		montantPanier.setText(montantHT);
 		p3.add(montantPanier);
 		
@@ -250,13 +279,13 @@ public class VueJetable extends JFrame{
 		return panel;
 	}
 	
-private void buildEcran_Panier(){
+private void buildEcran_Panier(Commande cmd){
 
 		this.setTitle("Ecran_Panier");
 		this.setSize(1000, 1000);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setContentPane(buildContentPaneEcran_Panier());
+		this.setContentPane(buildContentPaneEcran_Panier(cmd));
 		this.setVisible(true);
 
 	}

@@ -31,13 +31,16 @@ public class Commande {
 		
 	}
 	
-	public Commande(int nb_prod, Client leClient){ //= produit_du_jr ){
+	public Commande(int nb_prod, Client leClient, Produit produit){ //= produit_du_jr ){
 		date = new Date();//timestamp.getTime());
 		this.nb_prod=nb_prod;
-		
+		ArrayList<LigneDeCommande> allLines = new ArrayList<LigneDeCommande>();
+		LigneDeCommande oneLine = new LigneDeCommande(nb_prod, produit); 
+		allLines.add(oneLine);
+		this.ligne_de_cmd = allLines; 
 		this.num_cmd = this.id();
 		this.clt = leClient;
-		
+		this.prod = produit;
 	}
 	
 
@@ -96,7 +99,8 @@ public class Commande {
 	// écrire la toString pour toutes les classes
 	public static void main(String args[]){
 		Client clt_1 = new Client("Ya", "Mvrinka", "barbie","mmmm");
-		Commande cmd = new Commande(2,clt_1);
+		Produit produit = new Produit();
+		Commande cmd = new Commande(2,clt_1, produit);
 		System.out.println(cmd.date);
 	}
 

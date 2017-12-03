@@ -1,12 +1,14 @@
 package metier;
 
+import java.util.ArrayList;
+
 public class Produit {
 	
 	private int prix;
 	private int qte_stock;
 	private int ref;
 	private boolean est_du_jour;
-	public static Produit listeProduits[];
+	public static ArrayList<Produit> listeProduits = new ArrayList<Produit>();
 	
 	
 	private int idObjet = (int) (Math.random()*((9999 - 0) + 1) + 0);
@@ -20,7 +22,7 @@ public class Produit {
 	}
 	
 	private void actualisationListeProduits(){
-		listeProduits[listeProduits.length+1]= this;
+		listeProduits.add(this);
 	}
 	
 	public Produit(){}
@@ -65,14 +67,14 @@ public class Produit {
 				leproduitDujour=listeProduit;
 			}
 			break;
-		}return leproduitDujour;
-		
+		}
+		return leproduitDujour;	
 	}
 	
 	
 	public void retirerDuStock(int qte){
 		this.setQte_stock(this.qte_stock - qte);
-		System.out.println("mise Ã  jour OK");
+		System.out.println("mise a  jour OK. Reste " + this.getQte_stock() + " produits");
 	}
 	
 

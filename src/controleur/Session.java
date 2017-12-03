@@ -31,8 +31,17 @@ public class Session {
 	}
 	
 	// Recuperer la ligne de commande avec ses informations 
-	public TypeEcran traiterPanier() {
-		return TypeEcran.Ecran_Panier;
+	public ArrayList<Object> traiterAjoutProduitPanier(Produit leProduit, int qte){
+		ArrayList<Object> to_return = new ArrayList<Object>();
+		to_return.add(TypeEcran.Ecran_Panier);
+		
+		Commande laCommande = new Commande();
+		laCommande.ajouterProduit(leProduit, qte);
+		
+		to_return.add(laCommande);
+		
+		return to_return;
+		
 	}
 	
 	public static void main (String[] args){
@@ -41,6 +50,9 @@ public class Session {
 		Client clt_2=new Client("Mvrinka", "Yangbo", "mvrinka", "yangbo");
 		ArrayList<Object> listeInfos = session.traiterIdentification("youssou", "ndour");
 		Client client = (Client) listeInfos.get(1);
-		new VueJetable(TypeEcran.Ecran_Accueil_Personnalise, client);
+		Produit produitDuJour = new Produit(100, 50, true);
+		//new VueJetable(TypeEcran.Ecran_Accueil_Personnalise, client, produitDuJour);
+		Commande cmd = new Commande(2, clt, produitDuJour);
+		new VueJetable(TypeEcran.Ecran_Panier, cmd);
 	}
 }
