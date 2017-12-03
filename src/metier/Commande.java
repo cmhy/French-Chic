@@ -1,15 +1,16 @@
 package metier;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Commande {
 	private Date date;
 	private int nb_prod;
 	private String num_cmd; // id unique
-	//private Produit prod; // a voir (heritage ou comment faire puisque le produit du jour est un produit particulier
+	private Produit prod; // a voir (heritage ou comment faire puisque le produit du jour est un produit particulier
 	private Client clt;
-	private LigneDeCommande[] ligne_de_cmd;
-	private static Produit pdtJour;
+	private ArrayList<LigneDeCommande> ligne_de_cmd;
+	
 	
 	private int idObjet = (int) (Math.random()*((9999 - 0) + 1) + 0);
 	private int typeOperation = (int) (Math.random()*((10 - 0) + 1) + 0);
@@ -30,13 +31,15 @@ public class Commande {
 		
 	}
 	
-	public Commande(int nb_prod, Client leClient){ //= produit_du_jr ){
+	public Commande(int nb_prod, Client leClient, Produit produit){ //= produit_du_jr ){
+		ligne_de_cmd = new ArrayList<LigneDeCommande>();
 		date = new Date();//timestamp.getTime());
 		this.nb_prod=nb_prod;
-		
+		LigneDeCommande oneLine = new LigneDeCommande(nb_prod, produit); 
+		ligne_de_cmd.add(oneLine);
 		this.num_cmd = this.id();
 		this.clt = leClient;
-		
+		this.prod = produit;
 	}
 	
 
@@ -57,13 +60,11 @@ public class Commande {
 		return clt;
 	}
 
-	public LigneDeCommande[] getLigne_de_cmd() {
+	public ArrayList<LigneDeCommande> getLigne_de_cmd() {
 		return ligne_de_cmd;
 	}
 
-	public static Produit getPdtJour() {
-		return pdtJour;
-	}
+	
 
 	public void setDate(Date date) {
 		this.date = date;
@@ -81,18 +82,24 @@ public class Commande {
 		this.clt = clt;
 	}
 
-	public void setLigne_de_cmd(LigneDeCommande[] ligne_de_cmd) {
+	public void setLigne_de_cmd(ArrayList<LigneDeCommande> ligne_de_cmd) {
 		this.ligne_de_cmd = ligne_de_cmd;
 	}
+	
 
-	public static void setPdtJour(Produit pdtJour) {
-		Commande.pdtJour = pdtJour;
+	public void ajouterProduit (Produit lePrdt, int qte){
+		LigneDeCommande ldc=new LigneDeCommande(qte, lePrdt);
+		lePrdt.retirerDuStock(qte);
+		
 	}
+
+
 
 	// écrire la toString pour toutes les classes
 	public static void main(String args[]){
 		Client clt_1 = new Client("Ya", "Mvrinka", "barbie","mmmm");
-		Commande cmd = new Commande(2,clt_1);
+		Produit produit = new Produit();
+		Commande cmd = new Commande(2,clt_1, produit);
 		System.out.println(cmd.date);
 	}
 
