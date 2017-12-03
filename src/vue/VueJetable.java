@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -29,6 +30,7 @@ public class VueJetable extends JFrame implements ActionListener{
 		private JPasswordField textfmdp; // DANS LA METHODE OÙ ON LES INSTANCIE
 		private JButton boutonIdentification;
 		JButton boutonDefinirQuantite;
+		JTextField quantiteCommandee;
 
 	public VueJetable(TypeEcran ecran){
 		super();
@@ -78,13 +80,13 @@ public class VueJetable extends JFrame implements ActionListener{
 		p1.add(label);
 
 
-		JTextField textfpseudo= new JTextField("pseudo");
+		textfpseudo= new JTextField("pseudo");
 		textfpseudo.setColumns(10);
 		textfpseudo.setMaximumSize(new Dimension(150, 20));
 		p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
 		p2.add(textfpseudo);
 
-		JPasswordField textfmdp= new JPasswordField("mot de passe");
+		textfmdp= new JPasswordField("mot de passe");
 		textfmdp.setColumns(10);
 		textfmdp.setMaximumSize(new Dimension(150, 20));
 
@@ -92,9 +94,10 @@ public class VueJetable extends JFrame implements ActionListener{
 		p3.add(textfmdp);
 
 
-		JButton bouton = new JButton(("S'identifier"));
+		boutonIdentification = new JButton(("S'identifier"));
 		p4.setLayout(new BoxLayout(p4,BoxLayout.LINE_AXIS));
-		p4.add(bouton);
+		boutonIdentification.addActionListener(this);
+		p4.add(boutonIdentification);
 
 		p.setLayout(new BoxLayout(p,BoxLayout.PAGE_AXIS));
 		p.add(p1);
@@ -170,7 +173,7 @@ public class VueJetable extends JFrame implements ActionListener{
 
 		JLabel produit_Du_Jour = new JLabel();
 		//TO DO changer ceci avec le nom du produitDujour si possible
-		String produit = "" + produitDuJour.getRef();
+		String produit = "" + produitDuJour.getNomProduit();
 		// TO DO Reccup�rer ici le prix
 		int prix = produitDuJour.getPrix();
 		produit_Du_Jour.setText("Le produit du jour est le " + produit + " au prix HT de " + prix + " euros");
@@ -179,7 +182,7 @@ public class VueJetable extends JFrame implements ActionListener{
 
 		JLabel quantite = new JLabel("Quantite     ");
 		// TO DO ajouter la quantit� commandee du produit
-		JTextField quantiteCommandee = new JTextField(5); 
+		quantiteCommandee = new JTextField(5); 
 		quantiteCommandee.setMaximumSize(new Dimension(50, 20));
 		p4.setLayout(new BoxLayout(p4, BoxLayout.LINE_AXIS));
 		p4.add(quantite);
@@ -188,13 +191,8 @@ public class VueJetable extends JFrame implements ActionListener{
 		// TO DO rajouter l'intellignece pour effectivement ajouter le produit au panier 
 		boutonDefinirQuantite = new JButton(("Ajouter le produit au panier"));
 		p5.setLayout(new BoxLayout(p5,BoxLayout.LINE_AXIS));
-		p5.add(bouton);
-		bouton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent ae) {
-				String qte = quantiteCommandee.getText();
-				produitDuJour.retirerDuStock(Integer.parseInt(qte));
-			}
-		});
+		p5.add(boutonDefinirQuantite);
+		boutonDefinirQuantite.addActionListener(this);
 
 
 		p.setLayout(new BoxLayout(p,BoxLayout.PAGE_AXIS));
@@ -245,7 +243,7 @@ public class VueJetable extends JFrame implements ActionListener{
 		int i=0;
 		int montantTotalPanier=0; 
 		for(LigneDeCommande ldc:cmd.getLigne_de_cmd()){
-			produits[i][0]="" + ldc.getPrdt().getRef();
+			produits[i][0]="" + ldc.getPrdt().getNomProduit();
 			produits[i][1] = "" + ldc.getPrdt().getPrix();
 			produits[i][2] = "" + ldc.getQte();
 			int montant = ldc.getPrdt().getPrix() * ldc.getQte();
@@ -256,9 +254,10 @@ public class VueJetable extends JFrame implements ActionListener{
 		JTable tableauProduits = new JTable(produits, intitulesColonnes);
 		p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
 		p2.add(tableauProduits);
+		p2.add(new JScrollPane(tableauProduits));
+		
 
 		JLabel montantPanier = new JLabel();
-		// TO DO Reccuperer ici le total du panier ; 
 		String montantHT = "Montant Panier " + montantTotalPanier + " euros";
 		montantPanier.setText(montantHT);
 		p3.add(montantPanier);
@@ -289,27 +288,45 @@ public class VueJetable extends JFrame implements ActionListener{
 
 
 	public static void main (String[] args){
-		
-		Session session = new Session();
+		new VueJetable(TypeEcran.Ecran_Accueil);
+		/*Session session = new Session();
 		ArrayList<Object> listeInfos = session.traiterIdentification("youssou", "ndour");
 		Client clientCourant = (Client) listeInfos.get(1);
 		Produit produitDuJour = new Produit(100, 50,"Pantalon Zouk", true);
 		//new VueJetable(TypeEcran.Ecran_Accueil_Personnalise, clientCourant, produitDuJour);
 		/Commande cmd = new Commande(2, clt, produitDuJour);
-		new VueJetable(TypeEcran.Ecran_Panier, cmd);
+		new VueJetable(TypeEcran.Ecran_Panier, cmd);*/
 	}
 	
 	public void actionPerformed(ActionEvent evt) // IMPLEMENTER ACTION PERFORMED QUI RÉAGIT AU CLIC 
 	// A CHAQUE FOIS QU'ON VOUDRA ECOUTER UN BOUTON, AJOUTER UN IF ET FAIRE LE GETSOURCE SUR LE BON BOUTON
     { 
-		//Client clt = new Client("Ndour", "Youssou", "youssou", "ndour");
-		//Client clt_2=new Client("Mvrinka", "Yangbo", "mvrinka", "yangbo");
-		//Produit produitDuJour = new Produit(100, 50, true);
-       if (evt.getSource()==bouton) 
+		Client clt = new Client("Ndour", "Youssou", "youssou", "ndour");
+		Client clt_2=new Client("Mvrinka", "Yangbo", "mvrinka", "yangbo");
+		Produit produitDuJour = new Produit(100, 50, "Pantalon ZOUK", true);
+		
+		
+		
+		Session session = new Session();
+		String pseudo, mdp; 
+		Client clientCourant = new Client();
+		
+       if (evt.getSource() == boutonIdentification) 
        {
-          String pseudo = textfpseudo.getText();
-          String mdp = textfmdp.getText();      
-       } 
+          pseudo = textfpseudo.getText();
+          mdp = textfmdp.getText();
+          ArrayList<Object> listeInfos = session.traiterIdentification(pseudo, mdp);
+          Client clientLocal = (Client) listeInfos.get(1);
+          clientCourant = clientLocal;
+          new VueJetable((TypeEcran) listeInfos.get(0), clientLocal, produitDuJour);         
+       }
+       
+       else if(evt.getSource() == boutonDefinirQuantite) {
+    	int qte =Integer.parseInt(quantiteCommandee.getText());
+		produitDuJour.retirerDuStock(qte);
+		Commande cmd = new Commande(qte, clientCourant, produitDuJour);
+		new VueJetable(TypeEcran.Ecran_Panier, cmd);
+       }
     }
 
 }
