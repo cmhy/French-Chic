@@ -43,16 +43,4 @@ public class Session {
 		return to_return;
 		
 	}
-	
-	public static void main (String[] args){
-		Session session = new Session();
-		Client clt = new Client("Ndour", "Youssou", "youssou", "ndour");
-		Client clt_2=new Client("Mvrinka", "Yangbo", "mvrinka", "yangbo");
-		ArrayList<Object> listeInfos = session.traiterIdentification("youssou", "ndour");
-		Client client = (Client) listeInfos.get(1);
-		Produit produitDuJour = new Produit(100, 50, true);
-		//new VueJetable(TypeEcran.Ecran_Accueil_Personnalise, client, produitDuJour);
-		Commande cmd = new Commande(2, clt, produitDuJour);
-		new VueJetable(TypeEcran.Ecran_Panier, cmd);
-	}
 }

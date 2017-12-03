@@ -32,12 +32,11 @@ public class Commande {
 	}
 	
 	public Commande(int nb_prod, Client leClient, Produit produit){ //= produit_du_jr ){
+		ligne_de_cmd = new ArrayList<LigneDeCommande>();
 		date = new Date();//timestamp.getTime());
 		this.nb_prod=nb_prod;
-		ArrayList<LigneDeCommande> allLines = new ArrayList<LigneDeCommande>();
 		LigneDeCommande oneLine = new LigneDeCommande(nb_prod, produit); 
-		allLines.add(oneLine);
-		this.ligne_de_cmd = allLines; 
+		ligne_de_cmd.add(oneLine);
 		this.num_cmd = this.id();
 		this.clt = leClient;
 		this.prod = produit;

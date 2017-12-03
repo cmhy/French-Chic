@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
@@ -25,22 +26,22 @@ import metier.*;
 public class VueJetable extends JFrame{
 
 
-	
+
 	public VueJetable(TypeEcran ecran){
 		super();
 		if(ecran.equals(TypeEcran.Ecran_Accueil)) {
 			buildEcran_Accueil();
 		}
 	}
-	
+
 	public VueJetable(TypeEcran ecran, Client clt, Produit produitDuJour){
 		super();
-		
+
 		if(ecran.equals(TypeEcran.Ecran_Accueil_Personnalise)) {
 			buildEcran_Accueil_Personnalise(clt, produitDuJour);
 		}
 	}
-	
+
 	public VueJetable(TypeEcran ecran, Commande cmd){
 		super();
 		if (ecran.equals(TypeEcran.Ecran_Panier)) {
@@ -105,35 +106,35 @@ public class VueJetable extends JFrame{
 
 		return panel;
 	}
-	
+
 	private void buildEcran_Accueil(){
 
-	    //Définit un titre pour notre fenêtre
+		//Définit un titre pour notre fenêtre
 
-	    this.setTitle("Accueil");
+		this.setTitle("Accueil");
 
-	    //Définit sa taille : 400 pixels de large et 100 pixels de haut
+		//Définit sa taille : 400 pixels de large et 100 pixels de haut
 
-	    this.setSize(1000, 1000);
+		this.setSize(1000, 1000);
 
-	    //Nous demandons maintenant à notre objet de se positionner au centre
+		//Nous demandons maintenant à notre objet de se positionner au centre
 
-	    this.setLocationRelativeTo(null);
-
-
-	    //On prévient notre JFrame que notre JPanel sera son content pane
+		this.setLocationRelativeTo(null);
 
 
-	    //Termine le processus lorsqu'on clique sur la croix rouge
+		//On prévient notre JFrame que notre JPanel sera son content pane
 
-	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	    //Et enfin, la rendre visible        
+		//Termine le processus lorsqu'on clique sur la croix rouge
 
-	  
-	    this.setContentPane(buildContentPaneEcran_Accueil());
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	    this.setVisible(true);
+		//Et enfin, la rendre visible        
+
+
+		this.setContentPane(buildContentPaneEcran_Accueil());
+
+		this.setVisible(true);
 
 	}
 
@@ -163,7 +164,7 @@ public class VueJetable extends JFrame{
 		messageBienvenue.setText("Bonjour " + prenomClient + " " + nomClient);
 		p2.setLayout(new BoxLayout(p2, BoxLayout.LINE_AXIS));
 		p2.add(messageBienvenue);
-		
+
 		JLabel produit_Du_Jour = new JLabel();
 		//TO DO changer ceci avec le nom du produitDujour si possible
 		String produit = "" + produitDuJour.getRef();
@@ -172,7 +173,7 @@ public class VueJetable extends JFrame{
 		produit_Du_Jour.setText("Le produit du jour est le " + produit + " au prix HT de " + prix + " euros");
 		p3.setLayout(new BoxLayout(p3, BoxLayout.LINE_AXIS));
 		p3.add(produit_Du_Jour);
-		
+
 		JLabel quantite = new JLabel("Quantite     ");
 		// TO DO ajouter la quantité commandee du produit
 		JTextField quantiteCommandee = new JTextField(5); 
@@ -180,7 +181,7 @@ public class VueJetable extends JFrame{
 		p4.setLayout(new BoxLayout(p4, BoxLayout.LINE_AXIS));
 		p4.add(quantite);
 		p4.add(quantiteCommandee);
-		
+
 		// TO DO rajouter l'intellignece pour effectivement ajouter le produit au panier 
 		JButton bouton = new JButton(("Ajouter le produit au panier"));
 		p5.setLayout(new BoxLayout(p5,BoxLayout.LINE_AXIS));
@@ -191,7 +192,7 @@ public class VueJetable extends JFrame{
 				produitDuJour.retirerDuStock(Integer.parseInt(qte));
 			}
 		});
-		
+
 
 		p.setLayout(new BoxLayout(p,BoxLayout.PAGE_AXIS));
 		p.add(p1);
@@ -207,8 +208,8 @@ public class VueJetable extends JFrame{
 
 		return panel;
 	}
-	
-	
+
+
 	private void buildEcran_Accueil_Personnalise(Client clt, Produit produitDuJour){
 		this.setTitle("Ecran_Acueil_Personnalise");
 		this.setSize(1000, 1000);
@@ -217,7 +218,7 @@ public class VueJetable extends JFrame{
 		this.setContentPane(buildContentPaneEcran_Acueil_Personnalise(clt, produitDuJour));
 		this.setVisible(true);
 	}
-	
+
 	private JPanel buildContentPaneEcran_Panier(Commande cmd){
 		JPanel p=new JPanel();
 		JPanel panel = new ContentPaint();
@@ -237,14 +238,7 @@ public class VueJetable extends JFrame{
 
 		String[] intitulesColonnes = {"Libelle", "Prix HT", "Quantite", "Montant"};
 		//Taille du tableau arbitrairement mis à 10
-		String[][] produits = new String[10][10];
-				
-				/*{
-			      {"Chemise Lacoste", "20 euros", "1", "20 euros"},
-			      {"Pantallon ZOUK", "40 euros", "3", "120 euros"},
-				  {"TShirt Decathlon", "5 euros", "5", "25 euros"},
-			    }*/
-				; 
+		String[][] produits = new String[10][10]; 
 		int i=0;
 		int montantTotalPanier=0; 
 		for(LigneDeCommande ldc:cmd.getLigne_de_cmd()){
@@ -259,13 +253,13 @@ public class VueJetable extends JFrame{
 		JTable tableauProduits = new JTable(produits, intitulesColonnes);
 		p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
 		p2.add(tableauProduits);
-		
+
 		JLabel montantPanier = new JLabel();
 		// TO DO Reccuperer ici le total du panier ; 
 		String montantHT = "Montant Panier " + montantTotalPanier + " euros";
 		montantPanier.setText(montantHT);
 		p3.add(montantPanier);
-		
+
 		p.setLayout(new BoxLayout(p,BoxLayout.PAGE_AXIS));
 		p.add(p1);
 		p.add(p2);
@@ -278,8 +272,8 @@ public class VueJetable extends JFrame{
 
 		return panel;
 	}
-	
-private void buildEcran_Panier(Commande cmd){
+
+	private void buildEcran_Panier(Commande cmd){
 
 		this.setTitle("Ecran_Panier");
 		this.setSize(1000, 1000);
@@ -291,11 +285,16 @@ private void buildEcran_Panier(Commande cmd){
 	}
 
 
-	// Main 	
 	public static void main (String[] args){
+		Client clt = new Client("Ndour", "Youssou", "youssou", "ndour");
+		Client clt_2=new Client("Mvrinka", "Yangbo", "mvrinka", "yangbo");
 		Session session = new Session();
-		//session.traiterIdentification(pseudo, mdp)
-		//new VueJetable(TypeEcran.Ecran_Panier);
+		ArrayList<Object> listeInfos = session.traiterIdentification("youssou", "ndour");
+		Client clientCourant = (Client) listeInfos.get(1);
+		Produit produitDuJour = new Produit(100, 50, true);
+		//new VueJetable(TypeEcran.Ecran_Accueil_Personnalise, clientCourant, produitDuJour);
+		Commande cmd = new Commande(2, clt, produitDuJour);
+		new VueJetable(TypeEcran.Ecran_Panier, cmd);
 	}
 }
 
