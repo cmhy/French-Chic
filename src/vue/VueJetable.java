@@ -23,9 +23,11 @@ import javax.swing.JTextField;
 import controleur.*;
 import metier.*;
 
-public class VueJetable extends JFrame{
-
-
+public class VueJetable extends JFrame implements ActionListener{
+		 
+		private JTextField textfpseudo; // LES MODIFS : OBLIGE DE METTRE CES VARIABLES DEHORS CAR PAS DE SENS DE LES METTRE PUBLIC 
+		private JPasswordField textfmdp; // DANS LA METHODE OÙ ON LES INSTANCIE
+		private JButton bouton;
 
 	public VueJetable(TypeEcran ecran){
 		super();
@@ -285,9 +287,8 @@ public class VueJetable extends JFrame{
 	}
 
 
-	public static void main (String[] args){
-		Client clt = new Client("Ndour", "Youssou", "youssou", "ndour");
-		Client clt_2=new Client("Mvrinka", "Yangbo", "mvrinka", "yangbo");
+	/*public static void main (String[] args){
+		
 		Session session = new Session();
 		ArrayList<Object> listeInfos = session.traiterIdentification("youssou", "ndour");
 		Client clientCourant = (Client) listeInfos.get(1);
@@ -295,7 +296,21 @@ public class VueJetable extends JFrame{
 		//new VueJetable(TypeEcran.Ecran_Accueil_Personnalise, clientCourant, produitDuJour);
 		Commande cmd = new Commande(2, clt, produitDuJour);
 		new VueJetable(TypeEcran.Ecran_Panier, cmd);
-	}
+	}*/
+	
+	public void actionPerformed(ActionEvent evt) // IMPLEMENTER ACTION PERFORMED QUI RÉAGIT AU CLIC 
+	// A CHAQUE FOIS QU'ON VOUDRA ECOUTER UN BOUTON, AJOUTER UN IF ET FAIRE LE GETSOURCE SUR LE BON BOUTON
+    { 
+		Client clt = new Client("Ndour", "Youssou", "youssou", "ndour");
+		Client clt_2=new Client("Mvrinka", "Yangbo", "mvrinka", "yangbo");
+		Produit produitDuJour = new Produit(100, 50, true);
+       if (evt.getSource()==bouton) 
+       {
+          String pseudo = textfpseudo.getText();
+          String mdp = textfmdp.getText();      
+       } 
+    }
+
 }
 
 
