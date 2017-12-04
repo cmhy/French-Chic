@@ -25,12 +25,12 @@ import controleur.*;
 import metier.*;
 
 public class VueJetable extends JFrame implements ActionListener{
-		 
-		private JTextField textfpseudo; // LES MODIFS : OBLIGE DE METTRE CES VARIABLES DEHORS CAR PAS DE SENS DE LES METTRE PUBLIC 
-		private JPasswordField textfmdp; // DANS LA METHODE OÃ™ ON LES INSTANCIE
-		private JButton boutonIdentification;
-		JButton boutonDefinirQuantite;
-		JTextField quantiteCommandee;
+
+	private JTextField textfpseudo; 
+	private JPasswordField textfmdp;
+	private JButton boutonIdentification;
+	JButton boutonDefinirQuantite;
+	JTextField quantiteCommandee;
 
 	public VueJetable(TypeEcran ecran){
 		super();
@@ -47,10 +47,10 @@ public class VueJetable extends JFrame implements ActionListener{
 		}
 	}
 
-	public VueJetable(TypeEcran ecran, Commande cmd){
+	public VueJetable(TypeEcran ecran, Commande cmd, boolean qteOK){
 		super();
 		if (ecran.equals(TypeEcran.Ecran_Panier)) {
-			buildEcran_Panier(cmd);
+			buildEcran_Panier(cmd, qteOK);
 		}
 	}
 
@@ -164,7 +164,6 @@ public class VueJetable extends JFrame implements ActionListener{
 		p1.add(label);
 
 		JLabel messageBienvenue = new JLabel();
-		// TO DO ajouter les infromations sur le client
 		String prenomClient = clt.getPrenom();
 		String nomClient = clt.getNom();
 		messageBienvenue.setText("Bonjour " + prenomClient + " " + nomClient);
@@ -174,7 +173,7 @@ public class VueJetable extends JFrame implements ActionListener{
 		JLabel produit_Du_Jour = new JLabel();
 		//TO DO changer ceci avec le nom du produitDujour si possible
 		String produit = "" + produitDuJour.getNomProduit();
-		// TO DO Reccupï¿½rer ici le prix
+		// TO DO Reccuperer ici le prix
 		int prix = produitDuJour.getPrix();
 		produit_Du_Jour.setText("Le produit du jour est le " + produit + " au prix HT de " + prix + " euros");
 		p3.setLayout(new BoxLayout(p3, BoxLayout.LINE_AXIS));
@@ -220,7 +219,7 @@ public class VueJetable extends JFrame implements ActionListener{
 		this.setVisible(true);
 	}
 
-	private JPanel buildContentPaneEcran_Panier(Commande cmd){
+	private JPanel buildContentPaneEcran_Panier(Commande cmd, boolean qteOK){
 		JPanel p=new JPanel();
 		JPanel panel = new ContentPaint();
 		panel.setLayout(null);
@@ -229,6 +228,7 @@ public class VueJetable extends JFrame implements ActionListener{
 		JPanel p1 = new JPanel();
 		JPanel p2 = new JPanel();
 		JPanel p3 = new JPanel();
+		JPanel p4 = new JPanel(); 
 
 		JLabel label = new JLabel("Votre panier");
 		label.setForeground(Color.MAGENTA);
@@ -236,9 +236,11 @@ public class VueJetable extends JFrame implements ActionListener{
 		label.setFont(font);
 		p1.setLayout(new BoxLayout(p1,BoxLayout.LINE_AXIS));
 		p1.add(label);
-
+		p.add(p1);
+		
+		if(qteOK) {
 		String[] intitulesColonnes = {"Libelle", "Prix HT", "Quantite", "Montant"};
-		//Taille du tableau arbitrairement mis ï¿½ 10
+		//Taille du tableau arbitrairement mis a 10
 		String[][] produits = new String[10][10]; 
 		int i=0;
 		int montantTotalPanier=0; 
@@ -255,18 +257,28 @@ public class VueJetable extends JFrame implements ActionListener{
 		p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
 		p2.add(tableauProduits);
 		p2.add(new JScrollPane(tableauProduits));
-		
+
 
 		JLabel montantPanier = new JLabel();
 		String montantHT = "Montant Panier " + montantTotalPanier + " euros";
 		montantPanier.setText(montantHT);
 		p3.add(montantPanier);
 
-		p.setLayout(new BoxLayout(p,BoxLayout.PAGE_AXIS));
-		p.add(p1);
 		p.add(p2);
 		p.add(p3);
+		}
+		
+		else {
+			JLabel qteTropGrande = new JLabel();
+			p4.setLayout(new BoxLayout(p4, BoxLayout.LINE_AXIS));
+			qteTropGrande.setText("La quantité demandée n'est pas valide. "
+					+ "Veuillez saisir une quantité plus petite! ");
+			qteTropGrande.setForeground(Color.RED);
+			p4.add(qteTropGrande);
+			p.add(p4);
+		}
 
+		p.setLayout(new BoxLayout(p,BoxLayout.PAGE_AXIS));
 		panel.add(p);
 		this.getContentPane().add(panel);
 		p.setBackground(Color.white);
@@ -275,13 +287,13 @@ public class VueJetable extends JFrame implements ActionListener{
 		return panel;
 	}
 
-	private void buildEcran_Panier(Commande cmd){
+	private void buildEcran_Panier(Commande cmd, boolean qteOK){
 
 		this.setTitle("Ecran_Panier");
 		this.setSize(1000, 1000);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setContentPane(buildContentPaneEcran_Panier(cmd));
+		this.setContentPane(buildContentPaneEcran_Panier(cmd, qteOK));
 		this.setVisible(true);
 
 	}
@@ -289,53 +301,39 @@ public class VueJetable extends JFrame implements ActionListener{
 
 	public static void main (String[] args){
 		new VueJetable(TypeEcran.Ecran_Accueil);
-		/*Session session = new Session();
-		ArrayList<Object> listeInfos = session.traiterIdentification("youssou", "ndour");
-		Client clientCourant = (Client) listeInfos.get(1);
-		Produit produitDuJour = new Produit(100, 50,"Pantalon Zouk", true);
-		//new VueJetable(TypeEcran.Ecran_Accueil_Personnalise, clientCourant, produitDuJour);
-		/Commande cmd = new Commande(2, clt, produitDuJour);
-		new VueJetable(TypeEcran.Ecran_Panier, cmd);*/
 	}
-	
-	public void actionPerformed(ActionEvent evt) // IMPLEMENTER ACTION PERFORMED QUI RÃ‰AGIT AU CLIC 
-	// A CHAQUE FOIS QU'ON VOUDRA ECOUTER UN BOUTON, AJOUTER UN IF ET FAIRE LE GETSOURCE SUR LE BON BOUTON
-    { 
+
+	public void actionPerformed(ActionEvent evt) 
+	{ 
 		Client clt = new Client("Ndour", "Youssou", "youssou", "ndour");
 		Client clt_2=new Client("Mvrinka", "Yangbo", "mvrinka", "yangbo");
 		Produit produitDuJour = new Produit(100, 50, "Pantalon ZOUK", true);
-		
-		
-		
+
 		Session session = new Session();
 		String pseudo, mdp; 
 		Client clientCourant = new Client();
-		
-       if (evt.getSource() == boutonIdentification) 
-       {
-          pseudo = textfpseudo.getText();
-          mdp = textfmdp.getText();
-          ArrayList<Object> listeInfos = session.traiterIdentification(pseudo, mdp);
-          Client clientLocal = (Client) listeInfos.get(1);
-          clientCourant = clientLocal;
-          new VueJetable((TypeEcran) listeInfos.get(0), clientLocal, produitDuJour);         
-       }
-       
-       else if(evt.getSource() == boutonDefinirQuantite) {
-    	int qte =Integer.parseInt(quantiteCommandee.getText());
-		produitDuJour.retirerDuStock(qte);
-		Commande cmd = new Commande(qte, clientCourant, produitDuJour);
-		new VueJetable(TypeEcran.Ecran_Panier, cmd);
-       }
-    }
+		Commande cmd = new Commande();
 
+		if (evt.getSource() == boutonIdentification){
+			pseudo = textfpseudo.getText();
+			mdp = textfmdp.getText();
+			ArrayList<Object> listeInfos = session.traiterIdentification(pseudo, mdp);
+			Client clientLocal = (Client) listeInfos.get(1);
+			clientCourant = clientLocal;
+			new VueJetable((TypeEcran) listeInfos.get(0), clientLocal, produitDuJour);         
+		}
+
+		else if(evt.getSource() == boutonDefinirQuantite) {
+			int qte =Integer.parseInt(quantiteCommandee.getText());
+			if(qte > 0 &&
+					qte < produitDuJour.getQte_stock()) {
+				cmd = new Commande(qte, clientCourant, produitDuJour);
+				new VueJetable(TypeEcran.Ecran_Panier, cmd, true);
+			}
+			else {
+				new VueJetable(TypeEcran.Ecran_Panier, cmd, false);
+			}
+			
+		}
+	}
 }
-
-
-
-
-
-
-
-
-
